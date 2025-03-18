@@ -1,0 +1,21 @@
+import { NavLink } from "react-router-dom";
+import "../App.css";
+
+function Navigation() {
+    return (
+        <>
+            <nav className="navigation">
+                <ul>
+                    <li>
+                        <NavLink to="/">Landing</NavLink>
+                    </li>
+                    <li>
+                        <NavLink to="/launches/pages">Launches</NavLink>
+                    </li>
+                </ul>
+            </nav>
+        </>
+    );
+}
+
+export default Navigation;
