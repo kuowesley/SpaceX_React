@@ -1,27 +1,29 @@
 import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import ListItem from "./ListItem";
 import { List } from "@mui/material";
+import ErrorPage from "./ErrorPage";
 
 function ListPage(props) {
-    const { urlPage } = useParams();
+    const { page } = useParams();
     const [type, setType] = useState(props.type);
     const [listData, setListData] = useState([]);
-    const [page, setPage] = useState(urlPage ? parseInt(urlPage) : 1);
+    const [currPage, setCurrPage] = useState(
+        page && parseInt(page) > 0 ? parseInt(page) : 1
+    );
     const [expandedItem, setExpandedItem] = useState(null);
 
-    useEffect(() => {
-        console.log("this is useEffect for ListPage.jsx");
+    const navigate = useNavigate();
 
+    useEffect(() => {
+        //console.log("useEffect");
         async function fetchData() {
             try {
                 if (type == "launches") {
                     const { data } = await axios.get(
                         "https://api.spacexdata.com/v4/launches"
                     );
-                    console.log("2");
-                    console.log(data);
                     setListData(data);
                 }
             } catch (e) {
@@ -30,16 +32,21 @@ function ListPage(props) {
         }
 
         fetchData();
-        console.log("1");
-        console.log(listData);
-        // console.log(listData);
-        // console.log(lastPage);
-    }, [page, type]);
+    }, [currPage, type]);
+    //console.log("1");
+    if (!listData || listData.length === 0) {
+        return <div>Loading...</div>;
+    }
 
     const lastPage = listData.length / 10 + 1;
-    console.log("fuck");
-    console.log(listData);
-    console.log(page);
+    //console.log(currPage);
+    if (currPage > lastPage) {
+        return (
+            <>
+                <ErrorPage />
+            </>
+        );
+    }
 
     return (
         <>
@@ -47,7 +54,7 @@ function ListPage(props) {
                 <h1>List of {type}</h1>
                 <ul>
                     {listData
-                        .slice((page - 1) * 10, (page - 1) * 10 + 10)
+                        .slice((currPage - 1) * 10, (currPage - 1) * 10 + 10)
                         .map((item) => {
                             return (
                                 <ListItem
@@ -68,11 +75,25 @@ function ListPage(props) {
                 </ul>
             </div>
             <div>
-                {page > 1 && (
-                    <button onClick={() => setPage(page - 1)}>Previous</button>
+                {currPage > 1 && (
+                    <button
+                        onClick={() => {
+                            setCurrPage(currPage - 1);
+                            navigate(`/launches/pages/${currPage - 1}`);
+                        }}
+                    >
+                        Previous
+                    </button>
                 )}
-                {page < lastPage && (
-                    <button onClick={() => setPage(page + 1)}>Next</button>
+                {currPage < lastPage && (
+                    <button
+                        onClick={() => {
+                            setCurrPage(currPage + 1);
+                            navigate(`/launches/pages/${currPage + 1}`);
+                        }}
+                    >
+                        Next
+                    </button>
                 )}
             </div>
         </>
