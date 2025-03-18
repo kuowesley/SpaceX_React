@@ -9,6 +9,7 @@ function ListPage(props) {
     const [type, setType] = useState(props.type);
     const [listData, setListData] = useState([]);
     const [page, setPage] = useState(urlPage ? parseInt(urlPage) : 1);
+    const [expandedItem, setExpandedItem] = useState(null);
 
     useEffect(() => {
         console.log("this is useEffect for ListPage.jsx");
@@ -43,13 +44,26 @@ function ListPage(props) {
     return (
         <>
             <div>
-                <ListItem />
                 <h1>List of {type}</h1>
                 <ul>
                     {listData
                         .slice((page - 1) * 10, (page - 1) * 10 + 10)
                         .map((item) => {
-                            return <ListItem data={item} type={type} />;
+                            return (
+                                <ListItem
+                                    key={item.id}
+                                    data={item}
+                                    type={type}
+                                    expanded={expandedItem === item.id}
+                                    onToggle={() =>
+                                        setExpandedItem(
+                                            expandedItem === item.id
+                                                ? null
+                                                : item.id
+                                        )
+                                    }
+                                />
+                            );
                         })}
                 </ul>
             </div>
