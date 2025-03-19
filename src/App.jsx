@@ -27,7 +27,7 @@ function App() {
                 <Routes>
                     <Route path="/" element={<Landing />} />
                     <Route
-                        path="/launches/pages"
+                        path="/launches/pages/"
                         element={<ListPage type="launches" />}
                     />
                     <Route
@@ -37,6 +37,19 @@ function App() {
                     <Route
                         path="/launches/:id"
                         element={<ItemDetails type="launches" />}
+                    />
+
+                    <Route
+                        path="/payloads/pages/"
+                        element={<ListPage type="payloads" />}
+                    />
+                    <Route
+                        path="/payloads/pages/:page"
+                        element={<ListPage type="payloads" />}
+                    />
+                    <Route
+                        path="/payloads/:id"
+                        element={<ItemDetails type="payloads" />}
                     />
                 </Routes>
             </div>

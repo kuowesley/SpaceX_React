@@ -7,10 +7,10 @@ import ErrorPage from "./ErrorPage";
 
 function ListPage(props) {
     const { page } = useParams();
-    const [type, setType] = useState(props.type);
+    //const [type, setType] = useState(props.type);
     const [listData, setListData] = useState([]);
     const [currPage, setCurrPage] = useState(
-        page && parseInt(page) > 0 ? parseInt(page) : 1
+        page !== undefined && parseInt(page) > 0 ? parseInt(page) : 1
     );
     const [expandedItem, setExpandedItem] = useState(null);
 
@@ -18,11 +18,21 @@ function ListPage(props) {
 
     useEffect(() => {
         //console.log("useEffect");
+        setCurrPage(parseInt(page) > 0 ? parseInt(page) : 1);
+        //setType(props.type);
+        //console.log("useEffect 的 props.type  :" + props.type);
+        //console.log("useEffect 的 type  :" + type);
         async function fetchData() {
             try {
-                if (type == "launches") {
+                if (props.type == "launches") {
                     const { data } = await axios.get(
                         "https://api.spacexdata.com/v4/launches"
+                    );
+                    setListData(data);
+                }
+                if (props.type === "payloads") {
+                    const { data } = await axios.get(
+                        "https://api.spacexdata.com/v4/payloads"
                     );
                     setListData(data);
                 }
@@ -32,8 +42,11 @@ function ListPage(props) {
         }
 
         fetchData();
-    }, [currPage, type]);
-    //console.log("1");
+    }, [currPage, props.type, page]);
+
+    //console.log(type);
+    //console.log(currPage);
+    //console.log(page);
     if (!listData || listData.length === 0) {
         return <div>Loading...</div>;
     }
@@ -51,7 +64,7 @@ function ListPage(props) {
     return (
         <>
             <div>
-                <h1>List of {type}</h1>
+                <h1>List of {props.type}</h1>
                 <ul>
                     {listData
                         .slice((currPage - 1) * 10, (currPage - 1) * 10 + 10)
@@ -60,15 +73,7 @@ function ListPage(props) {
                                 <ListItem
                                     key={item.id}
                                     data={item}
-                                    type={type}
-                                    expanded={expandedItem === item.id}
-                                    onToggle={() =>
-                                        setExpandedItem(
-                                            expandedItem === item.id
-                                                ? null
-                                                : item.id
-                                        )
-                                    }
+                                    type={props.type}
                                 />
                             );
                         })}
@@ -79,7 +84,7 @@ function ListPage(props) {
                     <button
                         onClick={() => {
                             setCurrPage(currPage - 1);
-                            navigate(`/launches/pages/${currPage - 1}`);
+                            navigate(`/${props.type}/pages/${currPage - 1}`);
                         }}
                     >
                         Previous
@@ -89,7 +94,7 @@ function ListPage(props) {
                     <button
                         onClick={() => {
                             setCurrPage(currPage + 1);
-                            navigate(`/launches/pages/${currPage + 1}`);
+                            navigate(`/${props.type}/pages/${currPage + 1}`);
                         }}
                     >
                         Next

@@ -10,7 +10,10 @@ function Navigation() {
                         <NavLink to="/">Landing</NavLink>
                     </li>
                     <li>
-                        <NavLink to="/launches/pages">Launches</NavLink>
+                        <NavLink to="/launches/pages/1">Launches</NavLink>
+                    </li>
+                    <li>
+                        <NavLink to="/payloads/pages/1">Payloads</NavLink>
                     </li>
                 </ul>
             </nav>

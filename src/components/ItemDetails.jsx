@@ -24,7 +24,7 @@ function ItemDetails({ type }) {
         }
 
         fetchData();
-    }, [Itemtype]);
+    }, [id]);
 
     if (
         !ItemData ||
@@ -90,7 +90,9 @@ function ItemDetails({ type }) {
                             </ul>
                             <p
                                 onClick={() =>
-                                    navigate(`/launchpads/${payloadsId}`)
+                                    navigate(
+                                        `/launchpads/${ItemData.launchpad}`
+                                    )
                                 }
                             >
                                 launchpad Id : {ItemData.launchpad}
@@ -114,6 +116,7 @@ function ItemDetails({ type }) {
                             <p></p>
                         </>
                     )}
+                    {type === "" && <></>}
                 </>
             ) : (
                 <div>Loading...</div>
