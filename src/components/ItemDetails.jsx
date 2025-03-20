@@ -4,7 +4,7 @@ import axios from "axios";
 
 function ItemDetails({ type }) {
     let { id } = useParams();
-    const [Itemtype, setType] = useState(type);
+    //const [Itemtype, setType] = useState(type);
     const [ItemData, setItemData] = useState({});
 
     const navigate = useNavigate();
@@ -12,9 +12,16 @@ function ItemDetails({ type }) {
     useEffect(() => {
         async function fetchData() {
             try {
-                if (Itemtype === "launches") {
+                if (type === "launches") {
                     const { data } = await axios.get(
                         `https://api.spacexdata.com/v4/launches/${id}`
+                    );
+                    setItemData(data);
+                }
+
+                if (type === "payloads") {
+                    const { data } = await axios.get(
+                        `https://api.spacexdata.com/v4/payloads/${id}`
                     );
                     setItemData(data);
                 }
@@ -24,7 +31,7 @@ function ItemDetails({ type }) {
         }
 
         fetchData();
-    }, [id]);
+    }, [id, type]);
 
     if (
         !ItemData ||
@@ -36,11 +43,11 @@ function ItemDetails({ type }) {
 
     return (
         <>
+            <h1>{type} Item Details</h1>
             {ItemData && Object.keys(ItemData).length !== 0 ? (
                 <>
                     {type === "launches" && (
                         <>
-                            <h1>Item Details</h1>
                             <h2>Name: {ItemData.name}</h2>
 
                             {ItemData.links?.patch?.small && (
@@ -116,7 +123,20 @@ function ItemDetails({ type }) {
                             <p></p>
                         </>
                     )}
-                    {type === "" && <></>}
+                    {type === "payloads" && (
+                        <>
+                            <h2>Name : {ItemData.name}</h2>
+                            <p>Type : {ItemData.type}</p>
+                            <p>Reused : {ItemData.reused ? "Yes" : "No"}</p>
+                            <p
+                                onClick={() =>
+                                    navigate(`/launches/${ItemData.launch}`)
+                                }
+                            >
+                                Launch : {ItemData.launch}
+                            </p>
+                        </>
+                    )}
                 </>
             ) : (
                 <div>Loading...</div>
