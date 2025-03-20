@@ -6,41 +6,46 @@ function ListItem({ data, type }) {
     if (type === "launches") {
         return (
             <>
-                <li key={data.id}>
-                    <div
-                        onClick={() => {
-                            navigate(`/launches/${data.id}`);
-                        }}
-                    >
-                        <p>Name : {data.name}</p>
-                        <p>Flight Number : {data.flight_number}</p>
-                        <img
-                            src={data.links?.patch?.small}
-                            alt={data.name}
-                        ></img>
-                    </div>
-                    {/* <Link to={`/launches/${data.id}`}>
-                        <p>Name : {data.name}</p>
-                        <p>Flight Number : {data.flight_number}</p>
-                        <img src={data.links.patch.small} alt={data.name}></img>
-                    </Link> */}
-                </li>
+                <div
+                    role="button"
+                    onClick={() => {
+                        navigate(`/launches/${data.id}`);
+                    }}
+                >
+                    <p>Name : {data.name}</p>
+                    <p>Flight Number : {data.flight_number}</p>
+                    <img src={data.links?.patch?.small} alt={data.name}></img>
+                </div>
             </>
         );
     }
     if (type === "payloads") {
         return (
             <>
-                <li key={data.id}>
-                    <div
-                        onClick={() => {
-                            navigate(`/payloads/${data.id}`);
-                        }}
-                    >
-                        <p>Name : {data.name}</p>
-                        <p>Type : {data.type}</p>
-                    </div>
-                </li>
+                <div
+                    role="button"
+                    onClick={() => {
+                        navigate(`/payloads/${data.id}`);
+                    }}
+                >
+                    <p>Name : {data.name}</p>
+                    <p>Type : {data.type}</p>
+                </div>
+            </>
+        );
+    }
+    if (type === "cores") {
+        return (
+            <>
+                <div
+                    role="button"
+                    onClick={() => {
+                        navigate(`/cores/${data.id}`);
+                    }}
+                >
+                    <p>Serial : {data.serial}</p>
+                    <p>Status : {data.status}</p>
+                </div>
             </>
         );
     }

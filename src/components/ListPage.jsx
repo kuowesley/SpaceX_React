@@ -6,22 +6,13 @@ import { List } from "@mui/material";
 import ErrorPage from "./ErrorPage";
 
 function ListPage(props) {
-    const { page } = useParams();
-    //const [type, setType] = useState(props.type);
+    let { page } = useParams();
+    page = page !== undefined && parseInt(page) > 0 ? parseInt(page) : 1;
     const [listData, setListData] = useState([]);
-    const [currPage, setCurrPage] = useState(
-        page !== undefined && parseInt(page) > 0 ? parseInt(page) : 1
-    );
-    const [expandedItem, setExpandedItem] = useState(null);
 
     const navigate = useNavigate();
 
     useEffect(() => {
-        //console.log("useEffect");
-        setCurrPage(parseInt(page) > 0 ? parseInt(page) : 1);
-        //setType(props.type);
-        //console.log("useEffect 的 props.type  :" + props.type);
-        //console.log("useEffect 的 type  :" + type);
         async function fetchData() {
             try {
                 if (props.type == "launches") {
@@ -36,24 +27,27 @@ function ListPage(props) {
                     );
                     setListData(data);
                 }
+                if (props.type === "cores") {
+                    const { data } = await axios.get(
+                        "https://api.spacexdata.com/v4/cores"
+                    );
+                    setListData(data);
+                }
             } catch (e) {
                 console.log(e);
             }
         }
 
         fetchData();
-    }, [currPage, props.type, page]);
+    }, [props.type, page]);
 
-    //console.log(type);
-    //console.log(currPage);
-    //console.log(page);
     if (!listData || listData.length === 0) {
         return <div>Loading...</div>;
     }
 
     const lastPage = listData.length / 10 + 1;
     //console.log(currPage);
-    if (currPage > lastPage) {
+    if (page > lastPage) {
         return (
             <>
                 <ErrorPage />
@@ -67,34 +61,36 @@ function ListPage(props) {
                 <h1>List of {props.type}</h1>
                 <ul>
                     {listData
-                        .slice((currPage - 1) * 10, (currPage - 1) * 10 + 10)
+                        .slice((page - 1) * 10, (page - 1) * 10 + 10)
                         .map((item) => {
                             return (
-                                <ListItem
-                                    key={item.id}
-                                    data={item}
-                                    type={props.type}
-                                />
+                                <li key={item.id}>
+                                    <ListItem
+                                        key={item.id}
+                                        data={item}
+                                        type={props.type}
+                                    />
+                                </li>
                             );
                         })}
                 </ul>
             </div>
             <div>
-                {currPage > 1 && (
+                {page > 1 && (
                     <button
                         onClick={() => {
-                            setCurrPage(currPage - 1);
-                            navigate(`/${props.type}/pages/${currPage - 1}`);
+                            //setCurrPage(currPage - 1);
+                            navigate(`/${props.type}/pages/${page - 1}`);
                         }}
                     >
                         Previous
                     </button>
                 )}
-                {currPage < lastPage && (
+                {page < lastPage && (
                     <button
                         onClick={() => {
-                            setCurrPage(currPage + 1);
-                            navigate(`/${props.type}/pages/${currPage + 1}`);
+                            //setCurrPage(currPage + 1);
+                            navigate(`/${props.type}/pages/${page + 1}`);
                         }}
                     >
                         Next

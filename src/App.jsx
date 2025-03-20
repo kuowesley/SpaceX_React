@@ -51,6 +51,19 @@ function App() {
                         path="/payloads/:id"
                         element={<ItemDetails type="payloads" />}
                     />
+
+                    <Route
+                        path="/cores/pages/"
+                        element={<ListPage type="cores" />}
+                    />
+                    <Route
+                        path="/cores/pages/:page"
+                        element={<ListPage type="cores" />}
+                    />
+                    <Route
+                        path="/cores/:id"
+                        element={<ItemDetails type="cores" />}
+                    />
                 </Routes>
             </div>
         </>

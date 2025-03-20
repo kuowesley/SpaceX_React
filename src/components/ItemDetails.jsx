@@ -9,6 +9,16 @@ function ItemDetails({ type }) {
 
     const navigate = useNavigate();
 
+    const getEmbeddedYouTubeUrl = (url) => {
+        const videoIdMatch =
+            url.match(/youtu\.be\/([a-zA-Z0-9_-]+)/) ||
+            url.match(/watch\?v=([a-zA-Z0-9_-]+)/);
+        if (videoIdMatch) {
+            return `https://www.youtube.com/embed/${videoIdMatch[1]}`;
+        }
+        return null; // 如果網址格式不對，回傳 null
+    };
+
     useEffect(() => {
         async function fetchData() {
             try {
@@ -22,6 +32,13 @@ function ItemDetails({ type }) {
                 if (type === "payloads") {
                     const { data } = await axios.get(
                         `https://api.spacexdata.com/v4/payloads/${id}`
+                    );
+                    setItemData(data);
+                }
+
+                if (type === "cores") {
+                    const { data } = await axios.get(
+                        `https://api.spacexdata.com/v4/cores/${id}`
                     );
                     setItemData(data);
                 }
@@ -53,7 +70,7 @@ function ItemDetails({ type }) {
                             {ItemData.links?.patch?.small && (
                                 <img
                                     src={ItemData.links.patch.small}
-                                    alt={ItemData.name}
+                                    alt={ItemData.name || "Mission Patch"}
                                 />
                             )}
                             <p></p>
@@ -61,9 +78,8 @@ function ItemDetails({ type }) {
                                 <iframe
                                     width="560"
                                     height="315"
-                                    src={ItemData.links.webcast.replace(
-                                        "watch?v=",
-                                        "embed/"
+                                    src={getEmbeddedYouTubeUrl(
+                                        ItemData.links.webcast
                                     )}
                                     title="YouTube video player"
                                     frameBorder="0"
@@ -71,16 +87,16 @@ function ItemDetails({ type }) {
                                     allowFullScreen
                                 ></iframe>
                             )}
-                            <p
+                            <button
                                 onClick={() =>
                                     navigate(`/rockets/${ItemData.rocket}`)
                                 }
                             >
                                 Rocket Id : {ItemData.rocket}
-                            </p>
+                            </button>
 
+                            <p>payloads Id :</p>
                             <ul>
-                                payloads Id :
                                 {ItemData.payloads &&
                                     ItemData.payloads.map((payloadsId) => (
                                         <li
@@ -95,7 +111,7 @@ function ItemDetails({ type }) {
                                         </li>
                                     ))}
                             </ul>
-                            <p
+                            <button
                                 onClick={() =>
                                     navigate(
                                         `/launchpads/${ItemData.launchpad}`
@@ -103,7 +119,7 @@ function ItemDetails({ type }) {
                                 }
                             >
                                 launchpad Id : {ItemData.launchpad}
-                            </p>
+                            </button>
                             <ul>
                                 {ItemData.cores &&
                                     ItemData.cores.map((coresItem) => (
@@ -119,8 +135,6 @@ function ItemDetails({ type }) {
                                         </li>
                                     ))}
                             </ul>
-
-                            <p></p>
                         </>
                     )}
                     {type === "payloads" && (
@@ -128,13 +142,33 @@ function ItemDetails({ type }) {
                             <h2>Name : {ItemData.name}</h2>
                             <p>Type : {ItemData.type}</p>
                             <p>Reused : {ItemData.reused ? "Yes" : "No"}</p>
-                            <p
+                            <button
                                 onClick={() =>
                                     navigate(`/launches/${ItemData.launch}`)
                                 }
                             >
                                 Launch : {ItemData.launch}
-                            </p>
+                            </button>
+                        </>
+                    )}
+                    {type === "cores" && (
+                        <>
+                            <p>Serial : {ItemData.serial}</p>
+                            <p>Status : {ItemData.status}</p>
+                            <ul>
+                                Launches
+                                {ItemData.launches &&
+                                    ItemData.launches.map((lunchId) => (
+                                        <li
+                                            key={lunchId}
+                                            onClick={() =>
+                                                navigate(`/launches/${lunchId}`)
+                                            }
+                                        >
+                                            {lunchId}
+                                        </li>
+                                    ))}
+                            </ul>
                         </>
                     )}
                 </>

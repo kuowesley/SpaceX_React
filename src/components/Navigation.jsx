@@ -15,6 +15,9 @@ function Navigation() {
                     <li>
                         <NavLink to="/payloads/pages/1">Payloads</NavLink>
                     </li>
+                    <li>
+                        <NavLink to="/cores/pages/1">Cores</NavLink>
+                    </li>
                 </ul>
             </nav>
         </>
