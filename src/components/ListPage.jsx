@@ -33,6 +33,12 @@ function ListPage(props) {
                     );
                     setListData(data);
                 }
+                if (props.type === "rockets") {
+                    const { data } = await axios.get(
+                        "https://api.spacexdata.com/v4/rockets"
+                    );
+                    setListData(data);
+                }
             } catch (e) {
                 console.log(e);
             }
@@ -45,7 +51,7 @@ function ListPage(props) {
         return <div>Loading...</div>;
     }
 
-    const lastPage = listData.length / 10 + 1;
+    const lastPage = Math.floor(listData.length / 10 + 1);
     //console.log(currPage);
     if (page > lastPage) {
         return (
@@ -54,7 +60,7 @@ function ListPage(props) {
             </>
         );
     }
-
+    console.log(lastPage);
     return (
         <>
             <div>

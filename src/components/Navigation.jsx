@@ -18,6 +18,9 @@ function Navigation() {
                     <li>
                         <NavLink to="/cores/pages/1">Cores</NavLink>
                     </li>
+                    <li>
+                        <NavLink to="/rockets/pages/1">Rockets</NavLink>
+                    </li>
                 </ul>
             </nav>
         </>

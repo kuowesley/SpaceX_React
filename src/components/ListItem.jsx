@@ -49,6 +49,20 @@ function ListItem({ data, type }) {
             </>
         );
     }
+    if (type === "rockets") {
+        return (
+            <>
+                <div
+                    role="button"
+                    onClick={() => {
+                        navigate(`/rockets/${data.id}`);
+                    }}
+                >
+                    <p>Name : {data.name}</p>
+                </div>
+            </>
+        );
+    }
 }
 
 export default ListItem;

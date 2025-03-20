@@ -64,6 +64,19 @@ function App() {
                         path="/cores/:id"
                         element={<ItemDetails type="cores" />}
                     />
+
+                    <Route
+                        path="/rockets/pages/"
+                        element={<ListPage type="rockets" />}
+                    />
+                    <Route
+                        path="/rockets/pages/:page"
+                        element={<ListPage type="rockets" />}
+                    />
+                    <Route
+                        path="/rockets/:id"
+                        element={<ItemDetails type="rockets" />}
+                    />
                 </Routes>
             </div>
         </>

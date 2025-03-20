@@ -42,6 +42,13 @@ function ItemDetails({ type }) {
                     );
                     setItemData(data);
                 }
+
+                if (type === "rockets") {
+                    const { data } = await axios.get(
+                        `https://api.spacexdata.com/v4/rockets/${id}`
+                    );
+                    setItemData(data);
+                }
             } catch (e) {
                 console.log(e);
             }
@@ -169,6 +176,22 @@ function ItemDetails({ type }) {
                                         </li>
                                     ))}
                             </ul>
+                        </>
+                    )}
+                    {type === "rockets" && (
+                        <>
+                            <p>Name : {ItemData.name}</p>
+                            {ItemData.flickr_images &&
+                                ItemData.flickr_images.length > 0 && (
+                                    <img
+                                        src={ItemData.flickr_images[0]}
+                                        alt={ItemData.name || "Mission Patch"}
+                                    />
+                                )}
+                            <p>Height-meters : {ItemData.height?.meters}</p>
+                            <p>Height-feet : {ItemData.height?.feet}</p>
+                            <p>diameter-meters : {ItemData.diameter?.meters}</p>
+                            <p>diameter-feet : {ItemData.diameter?.feet}</p>
                         </>
                     )}
                 </>
