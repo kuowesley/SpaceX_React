@@ -56,6 +56,13 @@ function ItemDetails({ type }) {
                     );
                     setItemData(data);
                 }
+
+                if (type === "launchpads") {
+                    const { data } = await axios.get(
+                        `https://api.spacexdata.com/v4/launchpads/${id}`
+                    );
+                    setItemData(data);
+                }
             } catch (e) {
                 console.log(e);
             }
@@ -217,9 +224,9 @@ function ItemDetails({ type }) {
                                 <ul>
                                     {" "}
                                     Roles
-                                    {ItemData.roles.map((item) => {
+                                    {ItemData.roles.map((item, index) => {
                                         return (
-                                            <li>
+                                            <li key={index}>
                                                 <p>{item}</p>
                                             </li>
                                         );
@@ -230,10 +237,17 @@ function ItemDetails({ type }) {
                                 <ul>
                                     {" "}
                                     Launches
-                                    {ItemData.launches.map((item) => {
+                                    {ItemData.launches.map((lunchId, index) => {
                                         return (
-                                            <li>
-                                                <p>{item}</p>
+                                            <li
+                                                key={lunchId}
+                                                onClick={() =>
+                                                    navigate(
+                                                        `/launches/${lunchId}`
+                                                    )
+                                                }
+                                            >
+                                                <p>{lunchId}</p>
                                             </li>
                                         );
                                     })}
@@ -249,6 +263,60 @@ function ItemDetails({ type }) {
                                         View Ship details on link
                                     </a>
                                 </p>
+                            )}
+                        </>
+                    )}
+                    {type === "launchpads" && (
+                        <>
+                            <p>Name : {ItemData.name}</p>
+                            <p>full_name : {ItemData.full_name}</p>
+                            {ItemData.images?.large && (
+                                <img
+                                    src={ItemData.images?.large}
+                                    alt={ItemData.name || "Mission Patch"}
+                                />
+                            )}
+                            <p>locality : {ItemData.locality}</p>
+
+                            {ItemData.rockets && (
+                                <ul>
+                                    {" "}
+                                    Rockets
+                                    {ItemData.rockets.map((rocketId, index) => {
+                                        return (
+                                            <li
+                                                key={rocketId}
+                                                onClick={() =>
+                                                    navigate(
+                                                        `/rockets/${rocketId}`
+                                                    )
+                                                }
+                                            >
+                                                <p>{rocketId}</p>
+                                            </li>
+                                        );
+                                    })}
+                                </ul>
+                            )}
+                            {ItemData.launches && (
+                                <ul>
+                                    {" "}
+                                    Launches
+                                    {ItemData.launches.map((lunchId, index) => {
+                                        return (
+                                            <li
+                                                key={lunchId}
+                                                onClick={() =>
+                                                    navigate(
+                                                        `/launches/${lunchId}`
+                                                    )
+                                                }
+                                            >
+                                                <p>{lunchId}</p>
+                                            </li>
+                                        );
+                                    })}
+                                </ul>
                             )}
                         </>
                     )}

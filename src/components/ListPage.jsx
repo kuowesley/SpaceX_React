@@ -45,6 +45,12 @@ function ListPage(props) {
                     );
                     setListData(data);
                 }
+                if (props.type === "launchpads") {
+                    const { data } = await axios.get(
+                        "https://api.spacexdata.com/v4/launchpads"
+                    );
+                    setListData(data);
+                }
             } catch (e) {
                 console.log(e);
             }

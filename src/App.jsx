@@ -90,6 +90,19 @@ function App() {
                         path="/ships/:id"
                         element={<ItemDetails type="ships" />}
                     />
+
+                    <Route
+                        path="/launchpads/pages/"
+                        element={<ListPage type="launchpads" />}
+                    />
+                    <Route
+                        path="/launchpads/pages/:page"
+                        element={<ListPage type="launchpads" />}
+                    />
+                    <Route
+                        path="/launchpads/:id"
+                        element={<ItemDetails type="launchpads" />}
+                    />
                 </Routes>
             </div>
         </>
