@@ -5,7 +5,7 @@ function Navigation() {
     return (
         <>
             <nav className="navigation">
-                <ul>
+                <ul className="nav-list">
                     <li>
                         <NavLink to="/">Landing</NavLink>
                     </li>

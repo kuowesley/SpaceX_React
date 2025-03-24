@@ -2,8 +2,8 @@ import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import ListItem from "./ListItem";
-import { List } from "@mui/material";
 import ErrorPage from "./ErrorPage";
+import "../App.css";
 
 function ListPage(props) {
     let { page } = useParams();
@@ -75,7 +75,7 @@ function ListPage(props) {
     console.log(lastPage);
     return (
         <>
-            <div>
+            <div className="page-container">
                 <h1>List of {props.type}</h1>
                 <ul>
                     {listData

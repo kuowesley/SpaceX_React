@@ -21,7 +21,7 @@ function App() {
     return (
         <>
             <div className="App">
-                <header className="App-header card">
+                <header>
                     <Navigation />
                 </header>
                 <Routes>
