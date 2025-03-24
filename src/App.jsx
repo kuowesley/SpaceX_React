@@ -77,6 +77,19 @@ function App() {
                         path="/rockets/:id"
                         element={<ItemDetails type="rockets" />}
                     />
+
+                    <Route
+                        path="/ships/pages/"
+                        element={<ListPage type="ships" />}
+                    />
+                    <Route
+                        path="/ships/pages/:page"
+                        element={<ListPage type="ships" />}
+                    />
+                    <Route
+                        path="/ships/:id"
+                        element={<ItemDetails type="ships" />}
+                    />
                 </Routes>
             </div>
         </>

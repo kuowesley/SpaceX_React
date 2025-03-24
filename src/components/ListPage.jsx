@@ -39,6 +39,12 @@ function ListPage(props) {
                     );
                     setListData(data);
                 }
+                if (props.type === "ships") {
+                    const { data } = await axios.get(
+                        "https://api.spacexdata.com/v4/ships"
+                    );
+                    setListData(data);
+                }
             } catch (e) {
                 console.log(e);
             }

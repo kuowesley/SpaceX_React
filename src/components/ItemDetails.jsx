@@ -49,6 +49,13 @@ function ItemDetails({ type }) {
                     );
                     setItemData(data);
                 }
+
+                if (type === "ships") {
+                    const { data } = await axios.get(
+                        `https://api.spacexdata.com/v4/ships/${id}`
+                    );
+                    setItemData(data);
+                }
             } catch (e) {
                 console.log(e);
             }
@@ -192,6 +199,57 @@ function ItemDetails({ type }) {
                             <p>Height-feet : {ItemData.height?.feet}</p>
                             <p>diameter-meters : {ItemData.diameter?.meters}</p>
                             <p>diameter-feet : {ItemData.diameter?.feet}</p>
+                        </>
+                    )}
+                    {type === "ships" && (
+                        <>
+                            <p>Name : {ItemData.name}</p>
+                            {ItemData.image && (
+                                <img
+                                    src={ItemData.image}
+                                    alt={ItemData.name || "Mission Patch"}
+                                />
+                            )}
+                            <p>Legacy_id : {ItemData.legacy_id}</p>
+                            <p>Home_port : {ItemData.home_port}</p>
+
+                            {ItemData.roles && (
+                                <ul>
+                                    {" "}
+                                    Roles
+                                    {ItemData.roles.map((item) => {
+                                        return (
+                                            <li>
+                                                <p>{item}</p>
+                                            </li>
+                                        );
+                                    })}
+                                </ul>
+                            )}
+                            {ItemData.launches && (
+                                <ul>
+                                    {" "}
+                                    Launches
+                                    {ItemData.launches.map((item) => {
+                                        return (
+                                            <li>
+                                                <p>{item}</p>
+                                            </li>
+                                        );
+                                    })}
+                                </ul>
+                            )}
+                            {ItemData.link && (
+                                <p>
+                                    <a
+                                        href={ItemData.link}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                    >
+                                        View Ship details on link
+                                    </a>
+                                </p>
+                            )}
                         </>
                     )}
                 </>

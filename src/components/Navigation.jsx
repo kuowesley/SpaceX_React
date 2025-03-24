@@ -21,6 +21,9 @@ function Navigation() {
                     <li>
                         <NavLink to="/rockets/pages/1">Rockets</NavLink>
                     </li>
+                    <li>
+                        <NavLink to="/ships/pages/1">Ships</NavLink>
+                    </li>
                 </ul>
             </nav>
         </>
