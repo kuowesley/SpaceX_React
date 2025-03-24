@@ -31,6 +31,26 @@ function Landing() {
             <div className="page-container">
                 <h1>Lab 5</h1>
                 <div>
+                    <h2>Welcome to the SpaceX Explorer</h2>
+                    <p>
+                        This Single Page Application (SPA) was built using
+                        React, React Router, and Vite to explore data from the
+                        public SpaceX API. It showcases various aspects of
+                        SpaceX's missions, vehicles, and infrastructure,
+                        providing an interactive way to browse through real-time
+                        data such as launches, rockets, payloads, ships, launch
+                        pads, and cores.
+                    </p>
+                    <p>
+                        The information presented here is retrieved via RESTful
+                        GET requests, and rendered using functional React
+                        components with hooks like <code>useState</code> and{" "}
+                        <code>useEffect</code>. Each data item is interconnected
+                        — for example, a launch includes references to its
+                        rocket, launchpad, payloads, ships, and core — and these
+                        relationships are fully navigable through clickable
+                        links.
+                    </p>
                     <h2>Company summary</h2>
                     {company && company.summary ? (
                         <p className="company-summary">{company.summary}</p>
