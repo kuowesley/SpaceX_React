@@ -1,13 +1,14 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import axios from "axios";
+import ErrorPage from "./ErrorPage";
 import "../App.css";
 
 function ItemDetails({ type }) {
     let { id } = useParams();
     //const [Itemtype, setType] = useState(type);
     const [ItemData, setItemData] = useState({});
-
+    const [isSuccess, setIsSuccess] = useState(true);
     const navigate = useNavigate();
 
     const getEmbeddedYouTubeUrl = (url) => {
@@ -64,13 +65,26 @@ function ItemDetails({ type }) {
                     );
                     setItemData(data);
                 }
+                //console.log("456");
+                setIsSuccess(true);
             } catch (e) {
+                setIsSuccess(false);
                 console.log(e);
             }
         }
 
         fetchData();
     }, [id, type]);
+
+    // console.log("123");
+    // console.log(isSuccess);
+    if (!isSuccess) {
+        return (
+            <>
+                <ErrorPage />
+            </>
+        );
+    }
 
     if (
         !ItemData ||
@@ -121,21 +135,26 @@ function ItemDetails({ type }) {
                                 </button>
 
                                 <p>payloads Id :</p>
-                                <ul>
-                                    {ItemData.payloads &&
-                                        ItemData.payloads.map((payloadsId) => (
-                                            <li
-                                                key={payloadsId}
-                                                onClick={() =>
-                                                    navigate(
-                                                        `/payloads/${payloadsId}`
+                                {ItemData.payloads &&
+                                    ItemData.payloads.length > 0 && (
+                                        <ul className="centered-list">
+                                            {ItemData.payloads &&
+                                                ItemData.payloads.map(
+                                                    (payloadsId) => (
+                                                        <li
+                                                            key={payloadsId}
+                                                            onClick={() =>
+                                                                navigate(
+                                                                    `/payloads/${payloadsId}`
+                                                                )
+                                                            }
+                                                        >
+                                                            {payloadsId}
+                                                        </li>
                                                     )
-                                                }
-                                            >
-                                                {payloadsId}
-                                            </li>
-                                        ))}
-                                </ul>
+                                                )}
+                                        </ul>
+                                    )}
                                 <button
                                     onClick={() =>
                                         navigate(
@@ -145,89 +164,109 @@ function ItemDetails({ type }) {
                                 >
                                     launchpad Id : {ItemData.launchpad}
                                 </button>
-                                <ul>
-                                    {ItemData.cores &&
-                                        ItemData.cores.map((coresItem) => (
-                                            <li
-                                                key={coresItem.core}
-                                                onClick={() =>
-                                                    navigate(
-                                                        `/cores/${coresItem.core}`
+                                {ItemData.cores &&
+                                    ItemData.cores.length > 0 && (
+                                        <ul className="centered-list">
+                                            {ItemData.cores &&
+                                                ItemData.cores.map(
+                                                    (coresItem) => (
+                                                        <li
+                                                            key={coresItem.core}
+                                                            onClick={() =>
+                                                                navigate(
+                                                                    `/cores/${coresItem.core}`
+                                                                )
+                                                            }
+                                                        >
+                                                            cores Id :{" "}
+                                                            {coresItem.core}
+                                                        </li>
                                                     )
-                                                }
-                                            >
-                                                cores Id : {coresItem.core}
-                                            </li>
-                                        ))}
-                                </ul>
+                                                )}
+                                        </ul>
+                                    )}
                             </>
                         )}
                         {type === "payloads" && (
                             <>
-                                <h2>Name : {ItemData.name}</h2>
-                                <p>Type : {ItemData.type}</p>
-                                <p>Reused : {ItemData.reused ? "Yes" : "No"}</p>
-                                {ItemData.customers && (
-                                    <ul>
-                                        Customers
-                                        {ItemData.customers.map(
-                                            (item, index) => {
-                                                return (
-                                                    <>
-                                                        <li key={index}>
-                                                            {item}
-                                                        </li>
-                                                    </>
-                                                );
-                                            }
+                                <div className="center-content">
+                                    <h2>Name : {ItemData.name}</h2>
+                                    <p>Type : {ItemData.type}</p>
+                                    <p>
+                                        Reused :{" "}
+                                        {ItemData.reused ? "Yes" : "No"}
+                                    </p>
+                                    {ItemData.customers &&
+                                        ItemData.customers.length > 0 && (
+                                            <ul className="centered-list">
+                                                Customers
+                                                {ItemData.customers.map(
+                                                    (item, index) => {
+                                                        return (
+                                                            <>
+                                                                <li key={index}>
+                                                                    {item}
+                                                                </li>
+                                                            </>
+                                                        );
+                                                    }
+                                                )}
+                                            </ul>
                                         )}
-                                    </ul>
-                                )}
-                                {ItemData.nationalities && (
-                                    <ul>
-                                        Nationalities
-                                        {ItemData.nationalities.map(
-                                            (item, index) => {
-                                                return (
-                                                    <>
-                                                        <li key={index}>
-                                                            {item}
-                                                        </li>
-                                                    </>
-                                                );
-                                            }
+                                    {ItemData.nationalities &&
+                                        ItemData.nationalities.length > 0 && (
+                                            <ul className="centered-list">
+                                                Nationalities
+                                                {ItemData.nationalities.map(
+                                                    (item, index) => {
+                                                        return (
+                                                            <>
+                                                                <li key={index}>
+                                                                    {item}
+                                                                </li>
+                                                            </>
+                                                        );
+                                                    }
+                                                )}
+                                            </ul>
                                         )}
-                                    </ul>
-                                )}
-                                <button
-                                    onClick={() =>
-                                        navigate(`/launches/${ItemData.launch}`)
-                                    }
-                                >
-                                    Launch : {ItemData.launch}
-                                </button>
+                                    <button
+                                        onClick={() =>
+                                            navigate(
+                                                `/launches/${ItemData.launch}`
+                                            )
+                                        }
+                                    >
+                                        Launch : {ItemData.launch}
+                                    </button>
+                                </div>
                             </>
                         )}
                         {type === "cores" && (
                             <>
                                 <p>Serial : {ItemData.serial}</p>
                                 <p>Status : {ItemData.status}</p>
-                                <ul>
-                                    Launches
-                                    {ItemData.launches &&
-                                        ItemData.launches.map((lunchId) => (
-                                            <li
-                                                key={lunchId}
-                                                onClick={() =>
-                                                    navigate(
-                                                        `/launches/${lunchId}`
+                                {ItemData.launches &&
+                                    ItemData.launches.length > 0 && (
+                                        <ul className="centered-list">
+                                            Launches
+                                            {ItemData.launches &&
+                                                ItemData.launches.map(
+                                                    (lunchId) => (
+                                                        <li
+                                                            key={lunchId}
+                                                            onClick={() =>
+                                                                navigate(
+                                                                    `/launches/${lunchId}`
+                                                                )
+                                                            }
+                                                        >
+                                                            {lunchId}
+                                                        </li>
                                                     )
-                                                }
-                                            >
-                                                {lunchId}
-                                            </li>
-                                        ))}
-                                </ul>
+                                                )}
+                                        </ul>
+                                    )}
                             </>
                         )}
                         {type === "rockets" && (
@@ -266,21 +305,15 @@ function ItemDetails({ type }) {
                                 <p>Home_port : {ItemData.home_port}</p>
 
                                 {ItemData.roles && (
-                                    <ul>
-                                        {" "}
+                                    <ul className="centered-list">
                                         Roles
                                         {ItemData.roles.map((item, index) => {
-                                            return (
-                                                <li key={index}>
-                                                    <p>{item}</p>
-                                                </li>
-                                            );
+                                            return <li key={index}>{item}</li>;
                                         })}
                                     </ul>
                                 )}
                                 {ItemData.launches && (
-                                    <ul>
-                                        {" "}
+                                    <ul className="centered-list">
                                         Launches
                                         {ItemData.launches.map(
                                             (lunchId, index) => {
@@ -293,7 +326,7 @@ function ItemDetails({ type }) {
                                                             )
                                                         }
                                                     >
-                                                        <p>{lunchId}</p>
+                                                        {lunchId}
                                                     </li>
                                                 );
                                             }
@@ -326,50 +359,59 @@ function ItemDetails({ type }) {
                                 )}
                                 <p>locality : {ItemData.locality}</p>
 
-                                {ItemData.rockets && (
-                                    <ul>
-                                        {" "}
-                                        Rockets
-                                        {ItemData.rockets.map(
-                                            (rocketId, index) => {
-                                                return (
-                                                    <li
-                                                        key={rocketId}
-                                                        onClick={() =>
-                                                            navigate(
-                                                                `/rockets/${rocketId}`
-                                                            )
-                                                        }
-                                                    >
-                                                        <p>{rocketId}</p>
-                                                    </li>
-                                                );
-                                            }
-                                        )}
-                                    </ul>
-                                )}
-                                {ItemData.launches && (
-                                    <ul>
-                                        {" "}
-                                        Launches
-                                        {ItemData.launches.map(
-                                            (lunchId, index) => {
-                                                return (
-                                                    <li
-                                                        key={lunchId}
-                                                        onClick={() =>
-                                                            navigate(
-                                                                `/launches/${lunchId}`
-                                                            )
-                                                        }
-                                                    >
-                                                        <p>{lunchId}</p>
-                                                    </li>
-                                                );
-                                            }
-                                        )}
-                                    </ul>
-                                )}
+                                {ItemData.rockets &&
+                                    ItemData.rockets.length > 0 && (
+                                        <ul className="centered-list">
+                                            {" "}
+                                            Rockets
+                                            {ItemData.rockets.map(
+                                                (rocketId, index) => {
+                                                    return (
+                                                        <li
+                                                            key={rocketId}
+                                                            onClick={() =>
+                                                                navigate(
+                                                                    `/rockets/${rocketId}`
+                                                                )
+                                                            }
+                                                        >
+                                                            {rocketId}
+                                                        </li>
+                                                    );
+                                                }
+                                            )}
+                                        </ul>
+                                    )}
+                                {ItemData.launches &&
+                                    ItemData.launches.length > 0 && (
+                                        <ul className="centered-list">
+                                            {" "}
+                                            Launches
+                                            {ItemData.launches.map(
+                                                (lunchId, index) => {
+                                                    return (
+                                                        <li
+                                                            key={lunchId}
+                                                            onClick={() =>
+                                                                navigate(
+                                                                    `/launches/${lunchId}`
+                                                                )
+                                                            }
+                                                        >
+                                                            {lunchId}
+                                                        </li>
+                                                    );
+                                                }
+                                            )}
+                                        </ul>
+                                    )}
+                                {/* <button
+                                    onClick={() => {
+                                        navigate(
+                                            `/launches/5eb87cd9ffd86e000604b32z`
+                                        );
+                                    }}
+                                ></button> */}
                             </>
                         )}
                     </>

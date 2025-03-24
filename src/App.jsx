@@ -13,6 +13,7 @@ import Landing from "./components/Landing";
 import ListPage from "./components/ListPage";
 import Navigation from "./components/Navigation";
 import ItemDetails from "./components/ItemDetails";
+import ErrorPage from "./components/ErrorPage";
 
 function App() {
     const [count, setCount] = useState(0);
@@ -103,6 +104,8 @@ function App() {
                         path="/launchpads/:id"
                         element={<ItemDetails type="launchpads" />}
                     />
+
+                    <Route path="*" element={<ErrorPage />} />
                 </Routes>
             </div>
         </>
