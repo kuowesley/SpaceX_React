@@ -27,10 +27,11 @@ function App() {
                 </header>
                 <Routes>
                     <Route path="/" element={<Landing />} />
-                    <Route
+
+                    {/* <Route
                         path="/launches/pages/"
                         element={<ListPage type="launches" />}
-                    />
+                    /> */}
                     <Route
                         path="/launches/pages/:page"
                         element={<ListPage type="launches" />}
@@ -40,10 +41,10 @@ function App() {
                         element={<ItemDetails type="launches" />}
                     />
 
-                    <Route
+                    {/* <Route
                         path="/payloads/pages/"
                         element={<ListPage type="payloads" />}
-                    />
+                    /> */}
                     <Route
                         path="/payloads/pages/:page"
                         element={<ListPage type="payloads" />}
@@ -53,10 +54,10 @@ function App() {
                         element={<ItemDetails type="payloads" />}
                     />
 
-                    <Route
+                    {/* <Route
                         path="/cores/pages/"
                         element={<ListPage type="cores" />}
-                    />
+                    /> */}
                     <Route
                         path="/cores/pages/:page"
                         element={<ListPage type="cores" />}
@@ -66,10 +67,10 @@ function App() {
                         element={<ItemDetails type="cores" />}
                     />
 
-                    <Route
+                    {/* <Route
                         path="/rockets/pages/"
                         element={<ListPage type="rockets" />}
-                    />
+                    /> */}
                     <Route
                         path="/rockets/pages/:page"
                         element={<ListPage type="rockets" />}
@@ -79,10 +80,10 @@ function App() {
                         element={<ItemDetails type="rockets" />}
                     />
 
-                    <Route
+                    {/* <Route
                         path="/ships/pages/"
                         element={<ListPage type="ships" />}
-                    />
+                    /> */}
                     <Route
                         path="/ships/pages/:page"
                         element={<ListPage type="ships" />}
@@ -92,10 +93,10 @@ function App() {
                         element={<ItemDetails type="ships" />}
                     />
 
-                    <Route
+                    {/* <Route
                         path="/launchpads/pages/"
                         element={<ListPage type="launchpads" />}
-                    />
+                    /> */}
                     <Route
                         path="/launchpads/pages/:page"
                         element={<ListPage type="launchpads" />}

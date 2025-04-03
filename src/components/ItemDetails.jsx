@@ -183,11 +183,9 @@ function ItemDetails({ type }) {
                                                 {ItemData.customers.map(
                                                     (item, index) => {
                                                         return (
-                                                            <>
-                                                                <li key={index}>
-                                                                    {item}
-                                                                </li>
-                                                            </>
+                                                            <li key={index}>
+                                                                {item}
+                                                            </li>
                                                         );
                                                     }
                                                 )}
@@ -200,11 +198,9 @@ function ItemDetails({ type }) {
                                                 {ItemData.nationalities.map(
                                                     (item, index) => {
                                                         return (
-                                                            <>
-                                                                <li key={index}>
-                                                                    {item}
-                                                                </li>
-                                                            </>
+                                                            <li key={index}>
+                                                                {item}
+                                                            </li>
                                                         );
                                                     }
                                                 )}

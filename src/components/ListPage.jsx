@@ -7,7 +7,7 @@ import "../App.css";
 
 function ListPage(props) {
     let { page } = useParams();
-    page = page !== undefined && parseInt(page) > 0 ? parseInt(page) : 1;
+    page = page !== undefined && parseInt(page) > 0 ? parseInt(page) : -1;
     const [listData, setListData] = useState([]);
 
     const navigate = useNavigate();
@@ -65,7 +65,7 @@ function ListPage(props) {
 
     const lastPage = Math.floor(listData.length / 10 + 1);
     //console.log(currPage);
-    if (page > lastPage) {
+    if (page > lastPage || page === -1) {
         return (
             <>
                 <ErrorPage />
