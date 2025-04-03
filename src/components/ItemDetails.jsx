@@ -1,4 +1,4 @@
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import ErrorPage from "./ErrorPage";
@@ -11,15 +11,15 @@ function ItemDetails({ type }) {
     const [isSuccess, setIsSuccess] = useState(true);
     const navigate = useNavigate();
 
-    const getEmbeddedYouTubeUrl = (url) => {
-        const videoIdMatch =
-            url.match(/youtu\.be\/([a-zA-Z0-9_-]+)/) ||
-            url.match(/watch\?v=([a-zA-Z0-9_-]+)/);
-        if (videoIdMatch) {
-            return `https://www.youtube.com/embed/${videoIdMatch[1]}`;
-        }
-        return null; // 如果網址格式不對，回傳 null
-    };
+    // const getEmbeddedYouTubeUrl = (url) => {
+    //     const videoIdMatch =
+    //         url.match(/youtu\.be\/([a-zA-Z0-9_-]+)/) ||
+    //         url.match(/watch\?v=([a-zA-Z0-9_-]+)/);
+    //     if (videoIdMatch) {
+    //         return `https://www.youtube.com/embed/${videoIdMatch[1]}`;
+    //     }
+    //     return null; // 如果網址格式不對，回傳 null
+    // };
 
     useEffect(() => {
         async function fetchData() {
@@ -103,36 +103,25 @@ function ItemDetails({ type }) {
                         {type === "launches" && (
                             <>
                                 <h2>Name: {ItemData.name}</h2>
+                                <div>
+                                    {ItemData.links?.patch?.small && (
+                                        <img
+                                            className="responsive-image"
+                                            src={ItemData.links.patch.small}
+                                            alt={
+                                                ItemData.name || "Mission Patch"
+                                            }
+                                        />
+                                    )}
+                                </div>
 
-                                {ItemData.links?.patch?.small && (
-                                    <img
-                                        className="responsive-image"
-                                        src={ItemData.links.patch.small}
-                                        alt={ItemData.name || "Mission Patch"}
-                                    />
-                                )}
-                                <p></p>
-                                {ItemData.links?.webcast && (
-                                    <iframe
-                                        width="560"
-                                        height="315"
-                                        src={getEmbeddedYouTubeUrl(
-                                            ItemData.links.webcast
-                                        )}
-                                        title="YouTube video player"
-                                        frameBorder="0"
-                                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                                        allowFullScreen
-                                    ></iframe>
-                                )}
-                                <p></p>
-                                <button
-                                    onClick={() =>
-                                        navigate(`/rockets/${ItemData.rocket}`)
-                                    }
+                                <p>Rocket Id : </p>
+                                <Link
+                                    to={`/rockets/${ItemData.rocket}`}
+                                    className="btn"
                                 >
-                                    Rocket Id : {ItemData.rocket}
-                                </button>
+                                    {ItemData.rocket}
+                                </Link>
 
                                 <p>payloads Id :</p>
                                 {ItemData.payloads &&
@@ -141,29 +130,22 @@ function ItemDetails({ type }) {
                                             {ItemData.payloads &&
                                                 ItemData.payloads.map(
                                                     (payloadsId) => (
-                                                        <li
-                                                            key={payloadsId}
-                                                            onClick={() =>
-                                                                navigate(
-                                                                    `/payloads/${payloadsId}`
-                                                                )
-                                                            }
-                                                        >
-                                                            {payloadsId}
+                                                        <li key={payloadsId}>
+                                                            <Link
+                                                                to={`/payloads/${payloadsId}`}
+                                                            >
+                                                                {payloadsId}
+                                                            </Link>
                                                         </li>
                                                     )
                                                 )}
                                         </ul>
                                     )}
-                                <button
-                                    onClick={() =>
-                                        navigate(
-                                            `/launchpads/${ItemData.launchpad}`
-                                        )
-                                    }
-                                >
-                                    launchpad Id : {ItemData.launchpad}
-                                </button>
+                                <p>launchpad Id : </p>
+                                <Link to={`/launchpads/${ItemData.launchpad}`}>
+                                    {ItemData.launchpad}
+                                </Link>
+                                <p>cores Id : </p>
                                 {ItemData.cores &&
                                     ItemData.cores.length > 0 && (
                                         <ul className="centered-list">
@@ -172,14 +154,12 @@ function ItemDetails({ type }) {
                                                     (coresItem) => (
                                                         <li
                                                             key={coresItem.core}
-                                                            onClick={() =>
-                                                                navigate(
-                                                                    `/cores/${coresItem.core}`
-                                                                )
-                                                            }
                                                         >
-                                                            cores Id :{" "}
-                                                            {coresItem.core}
+                                                            <Link
+                                                                to={`/cores/${coresItem.core}`}
+                                                            >
+                                                                {coresItem.core}
+                                                            </Link>
                                                         </li>
                                                     )
                                                 )}
@@ -230,15 +210,10 @@ function ItemDetails({ type }) {
                                                 )}
                                             </ul>
                                         )}
-                                    <button
-                                        onClick={() =>
-                                            navigate(
-                                                `/launches/${ItemData.launch}`
-                                            )
-                                        }
-                                    >
-                                        Launch : {ItemData.launch}
-                                    </button>
+                                    <p>Launch : </p>
+                                    <Link to={`/launches/${ItemData.launch}`}>
+                                        {ItemData.launch}
+                                    </Link>
                                 </div>
                             </>
                         )}
@@ -253,15 +228,12 @@ function ItemDetails({ type }) {
                                             {ItemData.launches &&
                                                 ItemData.launches.map(
                                                     (lunchId) => (
-                                                        <li
-                                                            key={lunchId}
-                                                            onClick={() =>
-                                                                navigate(
-                                                                    `/launches/${lunchId}`
-                                                                )
-                                                            }
-                                                        >
-                                                            {lunchId}
+                                                        <li key={lunchId}>
+                                                            <Link
+                                                                to={`/launches/${lunchId}`}
+                                                            >
+                                                                {lunchId}
+                                                            </Link>
                                                         </li>
                                                     )
                                                 )}
@@ -318,15 +290,12 @@ function ItemDetails({ type }) {
                                         {ItemData.launches.map(
                                             (lunchId, index) => {
                                                 return (
-                                                    <li
-                                                        key={lunchId}
-                                                        onClick={() =>
-                                                            navigate(
-                                                                `/launches/${lunchId}`
-                                                            )
-                                                        }
-                                                    >
-                                                        {lunchId}
+                                                    <li key={lunchId}>
+                                                        <Link
+                                                            to={`/launches/${lunchId}`}
+                                                        >
+                                                            {lunchId}
+                                                        </Link>
                                                     </li>
                                                 );
                                             }
@@ -367,15 +336,12 @@ function ItemDetails({ type }) {
                                             {ItemData.rockets.map(
                                                 (rocketId, index) => {
                                                     return (
-                                                        <li
-                                                            key={rocketId}
-                                                            onClick={() =>
-                                                                navigate(
-                                                                    `/rockets/${rocketId}`
-                                                                )
-                                                            }
-                                                        >
-                                                            {rocketId}
+                                                        <li key={rocketId}>
+                                                            <Link
+                                                                to={`/rockets/${rocketId}`}
+                                                            >
+                                                                {rocketId}
+                                                            </Link>
                                                         </li>
                                                     );
                                                 }
@@ -390,15 +356,12 @@ function ItemDetails({ type }) {
                                             {ItemData.launches.map(
                                                 (lunchId, index) => {
                                                     return (
-                                                        <li
-                                                            key={lunchId}
-                                                            onClick={() =>
-                                                                navigate(
-                                                                    `/launches/${lunchId}`
-                                                                )
-                                                            }
-                                                        >
-                                                            {lunchId}
+                                                        <li key={lunchId}>
+                                                            <Link
+                                                                to={`/launches/${lunchId}`}
+                                                            >
+                                                                {lunchId}
+                                                            </Link>
                                                         </li>
                                                     );
                                                 }
